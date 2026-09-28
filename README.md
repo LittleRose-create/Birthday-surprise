@@ -3,557 +3,900 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>A Little Surprise for Lang</title>
+<title>Birthday Surprise for Lang</title>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Dancing+Script:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600;700&display=swap');
 
 *{
-    box-sizing:border-box;
     margin:0;
     padding:0;
+    box-sizing:border-box;
+}
+
+html,body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
 }
 
 body{
-    overflow:hidden;
-    background:
-        radial-gradient(circle at 50% 20%, #39204e 0%, #160d28 45%, #080611 100%);
-    height:100vh;
-    color:white;
-    font-family:'Cinzel',serif;
+    background:#05030a;
+    font-family:'Dancing Script',cursive;
+    color:#f8d778;
 }
 
-/* ---------- NIGHT SKY ---------- */
+/* =========================
+   COMMON
+========================= */
 
-.sky{
-    position:fixed;
+.scene{
+    position:absolute;
     inset:0;
-    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    opacity:0;
+    visibility:hidden;
+    transition:opacity 1s ease;
 }
 
-.moon{
+.scene.active{
+    opacity:1;
+    visibility:visible;
+}
+
+.stars{
+    position:absolute;
+    inset:0;
+    background-image:
+        radial-gradient(circle,rgba(255,255,255,.8) 1px,transparent 1.5px);
+    background-size:75px 75px;
+    opacity:.35;
+    pointer-events:none;
+}
+
+.gold{
+    color:#f8d778;
+    text-shadow:
+        0 0 8px rgba(248,215,120,.8),
+        0 0 25px rgba(248,215,120,.35);
+}
+
+
+/* =====================================================
+   INTRO
+===================================================== */
+
+#intro{
+    flex-direction:column;
+    text-align:center;
+    background:
+        radial-gradient(circle at 50% 35%,#4d3156,#170b22 55%,#05030a);
+}
+
+.introMoon{
     position:absolute;
     top:7%;
-    right:9%;
-    width:105px;
-    height:105px;
+    right:10%;
+    width:90px;
+    height:90px;
     border-radius:50%;
-    background:linear-gradient(145deg,#fff9d8,#e8c96a);
+    background:#ffe9a8;
+    box-shadow:0 0 45px #ffe9a8;
+}
+
+.introMoon:after{
+    content:"";
+    position:absolute;
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    background:#24132e;
+    left:-25px;
+    top:-8px;
+}
+
+.introTitle{
+    position:relative;
+    font-size:clamp(40px,11vw,65px);
+}
+
+.introText{
+    position:relative;
+    margin-top:10px;
+    font-size:23px;
+}
+
+.startBtn{
+    position:relative;
+    margin-top:35px;
+    padding:15px 35px;
+    border-radius:50px;
+    border:1px solid #f8d778;
+    background:
+        linear-gradient(145deg,#4d2c07,#c08c27,#543108);
+    color:#fff2b5;
+    font-family:inherit;
+    font-size:23px;
     box-shadow:
-        0 0 25px #ffe89a,
-        0 0 70px rgba(255,220,120,.45);
+        0 0 20px rgba(248,215,120,.35),
+        inset 0 2px 5px rgba(255,255,255,.35);
+    cursor:pointer;
 }
 
-.moon:after{
-    content:"";
-    position:absolute;
-    width:105px;
-    height:105px;
-    border-radius:50%;
-    background:#120a20;
-    left:30px;
-    top:-10px;
+.startBtn:active{
+    transform:scale(.94);
 }
 
-.star{
-    position:absolute;
-    width:3px;
-    height:3px;
-    background:white;
-    border-radius:50%;
-    box-shadow:0 0 8px white;
-    animation:twinkle 2s infinite alternate;
-}
 
-@keyframes twinkle{
-    from{opacity:.25;transform:scale(.6)}
-    to{opacity:1;transform:scale(1.5)}
-}
-
-/* ---------- CHINESE LANTERNS ---------- */
-
-.lantern{
-    position:absolute;
-    top:-10px;
-    width:42px;
-    height:58px;
-    background:linear-gradient(90deg,#7c0808,#ef2424,#8b0808);
-    border-radius:50% 50% 45% 45%;
-    box-shadow:0 0 22px rgba(255,65,20,.7);
-    animation:swing 3s ease-in-out infinite;
-}
-
-.lantern:before{
-    content:"";
-    position:absolute;
-    top:-9px;
-    left:12px;
-    width:18px;
-    height:10px;
-    background:#e5a928;
-}
-
-.lantern:after{
-    content:"";
-    position:absolute;
-    bottom:-19px;
-    left:18px;
-    width:6px;
-    height:22px;
-    background:#e5a928;
-}
-
-.l1{left:7%;animation-delay:.3s}
-.l2{left:23%;top:35px;animation-delay:1s}
-.l3{right:24%;top:25px;animation-delay:.6s}
-.l4{right:7%;animation-delay:1.5s}
-
-@keyframes swing{
-    0%,100%{transform:rotate(-4deg)}
-    50%{transform:rotate(5deg)}
-}
-
-/* ---------- BALLOONS ---------- */
+/* =====================================================
+   BALLOONS
+===================================================== */
 
 .balloon{
     position:absolute;
-    width:52px;
-    height:65px;
+    width:45px;
+    height:58px;
     border-radius:50% 50% 45% 45%;
-    animation:float 5s ease-in-out infinite;
+    background:
+        radial-gradient(circle at 30% 25%,
+        rgba(255,255,255,.8) 0 5%,
+        transparent 7%),
+        linear-gradient(145deg,#dca13d,#70420d);
+    box-shadow:
+        inset -9px -8px 15px rgba(0,0,0,.35),
+        5px 10px 15px rgba(0,0,0,.35);
+    z-index:3;
 }
 
 .balloon:after{
     content:"";
     position:absolute;
-    top:62px;
-    left:25px;
     width:1px;
-    height:110px;
-    background:rgba(255,255,255,.45);
+    height:100px;
+    background:#bda36c;
+    top:56px;
+    left:50%;
 }
 
-.b1{left:5%;bottom:-80px;background:#e84d75;animation-delay:0s}
-.b2{right:5%;bottom:-100px;background:#5a8df2;animation-delay:1.3s}
-.b3{left:17%;bottom:-120px;background:#f0bd45;animation-delay:2.1s}
-.b4{right:18%;bottom:-130px;background:#a65de8;animation-delay:3s}
-
-@keyframes float{
-    0%{transform:translateY(0) rotate(-4deg)}
-    50%{transform:translateY(-45px) rotate(5deg)}
-    100%{transform:translateY(0) rotate(-4deg)}
+.b1{
+    left:7%;
+    top:25%;
+    animation:float1 3s ease-in-out infinite;
 }
 
-/* ---------- MAIN STAGE ---------- */
+.b2{
+    right:8%;
+    top:30%;
+    animation:float2 3.5s ease-in-out infinite;
+    transform:scale(.85);
+}
 
-.stage{
+.b3{
+    left:16%;
+    bottom:20%;
+    animation:float2 4s ease-in-out infinite;
+    transform:scale(.7);
+}
+
+.b4{
+    right:17%;
+    bottom:17%;
+    animation:float1 3.7s ease-in-out infinite;
+    transform:scale(.75);
+}
+
+@keyframes float1{
+    50%{transform:translateY(-20px) rotate(4deg)}
+}
+
+@keyframes float2{
+    50%{transform:translateY(18px) rotate(-5deg)}
+}
+
+
+/* =====================================================
+   CAKE SCENE
+===================================================== */
+
+#cakeScene{
+    flex-direction:column;
+    background:
+        radial-gradient(circle at 50% 32%,#543259,#180b22 58%,#05030a);
+}
+
+.moon{
     position:absolute;
-    inset:0;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    perspective:1200px;
+    top:6%;
+    right:9%;
+    width:82px;
+    height:82px;
+    border-radius:50%;
+    background:#ffe9a8;
+    box-shadow:0 0 40px #ffe9a8;
 }
 
-.scene{
-    position:relative;
-    width:100%;
-    height:100%;
+.lantern{
+    position:absolute;
+    top:6%;
+    width:43px;
+    height:62px;
+    border-radius:48%;
+    background:
+        linear-gradient(90deg,#61230c,#d5962b,#61230c);
+    box-shadow:0 0 25px rgba(235,156,45,.7);
 }
 
-/* ---------- CAKE ---------- */
+.lantern.left{
+    left:9%;
+}
 
-.cake-area{
+.lantern.right{
+    right:24%;
+}
+
+.lantern:before,
+.lantern:after{
+    content:"";
     position:absolute;
     left:50%;
-    top:50%;
-    transform:translate(-50%,-45%);
-    text-align:center;
-    transition:1s;
+    transform:translateX(-50%);
+    width:20px;
+    height:4px;
+    background:#c99b46;
 }
 
-.cake{
+.lantern:before{
+    top:-7px;
+}
+
+.lantern:after{
+    bottom:-7px;
+}
+
+
+/* ---------- cake ---------- */
+
+.cakeBox{
     position:relative;
-    width:250px;
-    height:190px;
-    margin:auto;
+    width:340px;
+    height:410px;
+    margin-top:55px;
     transform-style:preserve-3d;
-    animation:cakeFloat 3s ease-in-out infinite;
+    animation:cakeFloat 4s ease-in-out infinite;
 }
 
 @keyframes cakeFloat{
-    0%,100%{transform:translateY(0) rotateY(-5deg)}
-    50%{transform:translateY(-10px) rotateY(5deg)}
+    50%{
+        transform:translateY(-8px) rotateX(2deg);
+    }
+}
+
+.plate{
+    position:absolute;
+    bottom:35px;
+    left:50%;
+    transform:translateX(-50%);
+    width:315px;
+    height:48px;
+    border-radius:50%;
+    background:
+        linear-gradient(#f8e5a7,#a47d2b 45%,#38240c);
+    box-shadow:
+        0 18px 25px #000,
+        inset 0 4px 4px rgba(255,255,255,.5);
 }
 
 .layer{
     position:absolute;
-    left:25px;
-    width:200px;
-    height:55px;
+    left:50%;
+    transform:translateX(-50%);
     border-radius:50%;
     background:
-        linear-gradient(180deg,#743a1e,#3c180d);
+        linear-gradient(145deg,
+        #a95329 0%,
+        #6d2b13 35%,
+        #3c1308 72%,
+        #200804 100%);
     box-shadow:
-        inset 0 -12px 15px rgba(0,0,0,.35),
-        0 12px 15px rgba(0,0,0,.35);
+        inset 0 9px 12px rgba(255,255,255,.15),
+        inset 0 -15px 20px rgba(0,0,0,.4),
+        0 13px 18px rgba(0,0,0,.6);
 }
 
-.layer:before{
-    content:"";
+.layer1{
+    width:275px;
+    height:105px;
+    bottom:62px;
+}
+
+.layer2{
+    width:248px;
+    height:100px;
+    bottom:126px;
+}
+
+.layer3{
+    width:218px;
+    height:94px;
+    bottom:186px;
+}
+
+.cream{
     position:absolute;
-    left:0;
-    top:-12px;
-    width:200px;
-    height:28px;
+    left:50%;
+    transform:translateX(-50%);
     border-radius:50%;
-    background:#6e3218;
-    box-shadow:inset 0 5px 8px rgba(255,255,255,.12);
+    background:
+        linear-gradient(#fff8e5,#e7c99d);
+    box-shadow:
+        inset 0 -4px 5px rgba(0,0,0,.2),
+        0 4px 8px rgba(0,0,0,.5);
 }
 
-.layer:after{
-    content:"";
+.cream1{
+    width:260px;
+    height:25px;
+    bottom:122px;
+}
+
+.cream2{
+    width:232px;
+    height:25px;
+    bottom:182px;
+}
+
+.cream3{
+    width:207px;
+    height:27px;
+    bottom:240px;
+}
+
+
+/* chocolate top */
+
+.chocolateTop{
     position:absolute;
-    top:8px;
-    left:25px;
-    width:150px;
-    height:8px;
+    left:50%;
+    bottom:241px;
+    transform:translateX(-50%);
+    width:202px;
+    height:32px;
     border-radius:50%;
-    background:#f1d0a0;
-    opacity:.75;
+    background:#321006;
 }
 
-.bottom{top:105px}
-.middle{top:65px;transform:scale(.9)}
-.top{top:30px;transform:scale(.78)}
+.drip{
+    position:absolute;
+    background:#321006;
+    width:18px;
+    border-radius:0 0 12px 12px;
+}
+
+.drip1{
+    left:28px;
+    height:32px;
+}
+
+.drip2{
+    left:93px;
+    height:45px;
+}
+
+.drip3{
+    right:27px;
+    height:29px;
+}
+
+
+/* ---------- cake decorations ---------- */
 
 .choco{
     position:absolute;
-    width:18px;
-    height:18px;
+    width:13px;
+    height:13px;
     border-radius:50%;
-    background:#d79b51;
-    box-shadow:inset -3px -3px 5px #713a16;
+    background:#d8a43e;
+    box-shadow:0 3px 5px #000;
 }
 
-.c1{left:55px;top:38px}
-.c2{left:105px;top:35px}
-.c3{left:145px;top:42px}
-.c4{left:80px;top:80px}
-.c5{left:125px;top:78px}
+.choco1{
+    left:91px;
+    bottom:151px;
+}
 
-/* candles */
+.choco2{
+    left:157px;
+    bottom:141px;
+}
+
+.choco3{
+    right:88px;
+    bottom:154px;
+}
+
+
+/* =====================================================
+   CANDLES
+===================================================== */
+
+.candles{
+    position:absolute;
+    left:50%;
+    bottom:250px;
+    transform:translateX(-50%);
+    width:170px;
+    height:110px;
+}
 
 .candle{
     position:absolute;
-    width:12px;
-    height:48px;
-    top:-15px;
-    background:repeating-linear-gradient(
-        45deg,
-        #f8e4a0 0px,
-        #f8e4a0 7px,
-        #d68a45 7px,
-        #d68a45 12px
-    );
+    bottom:0;
+    width:22px;
+    height:67px;
     border-radius:5px;
-    z-index:10;
+    background:
+        repeating-linear-gradient(
+            135deg,
+            #fff0b4 0 7px,
+            #b98b2d 8px 11px
+        );
+    box-shadow:
+        inset -5px 0 7px rgba(0,0,0,.3),
+        3px 5px 8px #000;
 }
 
-.candle1{left:78px}
-.candle2{left:119px}
-.candle3{left:160px}
+.candle:nth-child(1){
+    left:12px;
+    height:60px;
+}
+
+.candle:nth-child(2){
+    left:74px;
+    height:82px;
+}
+
+.candle:nth-child(3){
+    right:12px;
+    height:60px;
+}
+
+.wick{
+    position:absolute;
+    top:-8px;
+    left:50%;
+    width:3px;
+    height:11px;
+    transform:translateX(-50%);
+    background:#211109;
+}
 
 .flame{
     position:absolute;
-    width:16px;
-    height:24px;
-    top:-24px;
-    left:-2px;
-    border-radius:50% 50% 50% 10%;
-    background:#ffd34e;
-    transform:rotate(45deg);
-    box-shadow:0 0 15px #ff9e21;
-    animation:flicker .25s infinite alternate;
+    left:50%;
+    top:-39px;
+    width:22px;
+    height:34px;
+    transform:translateX(-50%);
+    border-radius:55% 45% 55% 45%;
+    background:
+        radial-gradient(circle at 50% 70%,
+        #fff 0 13%,
+        #ffd83e 30%,
+        #ff8b00 65%,
+        transparent 72%);
+    filter:drop-shadow(0 0 10px #ffae25);
+    animation:flame 0.16s infinite alternate;
 }
 
-@keyframes flicker{
-    from{transform:rotate(42deg) scale(.9)}
-    to{transform:rotate(48deg) scale(1.08)}
+@keyframes flame{
+    from{
+        transform:translateX(-50%) scale(1) rotate(-3deg);
+    }
+    to{
+        transform:translateX(-50%) scale(.85) rotate(3deg);
+    }
 }
 
-.countdown{
-    margin-top:20px;
-    font-size:42px;
-    color:#ffe49a;
-    text-shadow:0 0 20px #e9a93b;
-    font-weight:bold;
+.flame.off{
+    opacity:0;
+    transform:translateX(-50%) scale(0);
+    transition:.5s;
 }
 
-/* ---------- FIREWORKS ---------- */
 
-.firework{
+/* countdown */
+
+.count{
     position:absolute;
-    width:5px;
-    height:5px;
-    border-radius:50%;
-    background:#ffd76b;
-    box-shadow:
-        0 -55px 0 #ffcb5b,
-        39px -39px 0 #ff7b7b,
-        55px 0 0 #fff0a6,
-        39px 39px 0 #ff7b7b,
-        0 55px 0 #ffcb5b,
-        -39px 39px 0 #8bd3ff,
-        -55px 0 0 #fff0a6,
-        -39px -39px 0 #8bd3ff;
-    animation:boom 2s infinite;
+    top:9%;
+    font-family:Arial,sans-serif;
+    font-size:65px;
+    font-weight:bold;
+    color:#ffe69a;
+    text-shadow:0 0 25px #ffc928;
+    opacity:0;
+    z-index:10;
 }
 
-.fw1{left:18%;top:28%}
-.fw2{right:20%;top:40%;animation-delay:.7s}
-.fw3{right:8%;top:18%;animation-delay:1.2s}
-
-@keyframes boom{
-    0%,100%{transform:scale(.2);opacity:.2}
-    50%{transform:scale(1);opacity:1}
+.count.show{
+    animation:countPop .8s ease;
 }
 
-/* ---------- PARCHMENT ---------- */
+@keyframes countPop{
+    0%{
+        opacity:0;
+        transform:scale(.2);
+    }
+    45%{
+        opacity:1;
+        transform:scale(1.25);
+    }
+    100%{
+        opacity:0;
+        transform:scale(1);
+    }
+}
 
-.letter-scene{
+
+/* =====================================================
+   FIREWORK CANVAS
+===================================================== */
+
+#fireworks{
     position:absolute;
     inset:0;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    opacity:0;
+    z-index:100;
     pointer-events:none;
-    transform:scale(.6) rotateX(45deg);
-    transition:1.5s;
 }
 
-.letter-scene.show{
-    opacity:1;
-    transform:scale(1) rotateX(0);
-    pointer-events:auto;
-}
 
-.parchment{
-    position:relative;
-    width:min(88%,650px);
-    min-height:520px;
-    padding:55px 45px;
+/* =====================================================
+   CARD
+===================================================== */
+
+#cardScene{
     background:
-        radial-gradient(circle at 20% 20%,rgba(255,255,255,.4),transparent 25%),
-        linear-gradient(135deg,#f6e1a7,#cfa76b,#f0d596);
-    color:#4b2815;
-    box-shadow:
-        0 20px 60px rgba(0,0,0,.65),
-        inset 0 0 35px rgba(100,55,10,.35);
-    border-radius:10px;
+        radial-gradient(circle at 50% 28%,#533355,#180b21 60%,#05030a);
+    perspective:1400px;
+}
+
+.cardWrap{
+    width:min(88vw,380px);
+    height:min(72vh,490px);
+    perspective:1400px;
+}
+
+.card{
+    position:relative;
+    width:100%;
+    height:100%;
     transform-style:preserve-3d;
 }
 
-.parchment:before,
-.parchment:after{
+.card.open{
+    animation:cardOpen 2.7s cubic-bezier(.2,.8,.2,1) forwards;
+}
+
+@keyframes cardOpen{
+
+    0%{
+        transform:rotateY(0deg) rotateX(0deg) scale(.88);
+    }
+
+    35%{
+        transform:rotateY(-35deg) rotateX(6deg) scale(1);
+    }
+
+    70%{
+        transform:rotateY(-125deg) rotateX(-3deg) scale(1);
+    }
+
+    100%{
+        transform:rotateY(-180deg) rotateX(0deg) scale(1);
+    }
+}
+
+.cardFront,
+.cardInside{
+    position:absolute;
+    inset:0;
+    border-radius:22px;
+    backface-visibility:hidden;
+    -webkit-backface-visibility:hidden;
+    border:2px solid #d6a940;
+    box-shadow:
+        0 25px 60px rgba(0,0,0,.75),
+        inset 0 0 30px rgba(255,215,120,.1);
+}
+
+.cardFront{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    background:
+        linear-gradient(145deg,#6c3a23,#321719,#15090e);
+}
+
+.cardFront:before{
     content:"";
     position:absolute;
-    width:35px;
-    height:100%;
-    top:0;
-    background:rgba(93,49,20,.18);
-    filter:blur(8px);
+    inset:13px;
+    border:1px solid #d9b35b;
+    border-radius:16px;
 }
 
-.parchment:before{left:0}
-.parchment:after{right:0}
-
-.scroll-top,
-.scroll-bottom{
-    position:absolute;
-    left:-12px;
-    width:calc(100% + 24px);
-    height:28px;
-    border-radius:50%;
-    background:linear-gradient(#9c6736,#e4bd78,#805026);
-    box-shadow:0 5px 10px rgba(0,0,0,.35);
+.bunny{
+    font-size:100px;
+    filter:drop-shadow(0 15px 9px #000);
+    animation:bunny 2s ease-in-out infinite;
 }
 
-.scroll-top{top:-12px}
-.scroll-bottom{bottom:-12px}
+@keyframes bunny{
+    50%{
+        transform:translateY(-10px);
+    }
+}
+
+.cardTitle{
+    margin-top:18px;
+    font-size:34px;
+}
+
+.cardSub{
+    margin-top:8px;
+    font-size:18px;
+}
+
+.cardInside{
+    transform:rotateY(180deg);
+    padding:28px 24px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:
+        linear-gradient(145deg,#30191a,#13090e);
+}
 
 .letter{
-    position:relative;
-    z-index:2;
-    font-family:'Dancing Script',cursive;
-    font-size:24px;
-    line-height:1.55;
-    font-weight:600;
-    color:#6d3516;
-    text-shadow:0 1px 1px rgba(255,255,255,.35);
-}
-
-.letter h1{
     text-align:center;
-    font-size:37px;
-    color:#b57916;
-    text-shadow:
-        0 1px #fff2b0,
-        0 0 12px rgba(190,130,25,.45);
-    margin-bottom:22px;
+    color:#f8d778;
+    font-size:21px;
+    line-height:1.46;
+    text-shadow:0 0 8px rgba(248,215,120,.35);
 }
 
-.signature{
-    text-align:right;
-    margin-top:25px;
-    font-size:30px;
-    color:#a96d15;
+
+/* =====================================================
+   FINAL
+===================================================== */
+
+#finalScene{
+    background:#020107;
 }
 
-/* ---------- BUTTON ---------- */
-
-.start{
+#finalCanvas{
     position:absolute;
-    bottom:8%;
-    left:50%;
-    transform:translateX(-50%);
-    padding:13px 30px;
-    border:none;
-    border-radius:30px;
-    background:linear-gradient(135deg,#d9a441,#fff0a1,#b77b19);
-    color:#3d2108;
-    font-family:'Cinzel',serif;
-    font-weight:bold;
-    box-shadow:0 0 25px rgba(240,190,75,.6);
-    cursor:pointer;
-    z-index:50;
+    inset:0;
+    width:100%;
+    height:100%;
 }
 
-.start:active{
-    transform:translateX(-50%) scale(.95);
-}
-
-/* hide environment after cake */
-
-.fade{
+.finalOverlay{
+    position:absolute;
+    bottom:7%;
+    width:100%;
+    text-align:center;
+    font-size:21px;
+    color:#f8d778;
     opacity:0;
-    transition:1s;
+    animation:fadeFinal 3s 3s forwards;
 }
 
-@media(max-width:600px){
-    .moon{
-        width:75px;
-        height:75px;
-    }
+@keyframes fadeFinal{
+    to{opacity:1}
+}
 
-    .moon:after{
-        width:75px;
-        height:75px;
-    }
 
-    .cake{
-        transform:scale(.82);
+/* Mid autumn lanterns */
+
+.finalLantern{
+    position:absolute;
+    top:7%;
+    width:40px;
+    height:58px;
+    border-radius:50%;
+    background:linear-gradient(90deg,#70250d,#d99a2d,#70250d);
+    box-shadow:0 0 25px #d78d2a;
+}
+
+.finalLantern:nth-child(1){
+    left:8%;
+}
+
+.finalLantern:nth-child(2){
+    right:8%;
+}
+
+
+/* mobile */
+
+@media(max-width:390px){
+
+    .cakeBox{
+        transform:scale(.84);
     }
 
     .letter{
-        font-size:19px;
+        font-size:18px;
     }
 
-    .letter h1{
-        font-size:29px;
-    }
-
-    .parchment{
-        min-height:470px;
-        padding:45px 25px;
+    .cardWrap{
+        height:450px;
     }
 }
 </style>
 </head>
 
+
 <body>
 
-<div class="sky">
+
+<!-- =====================================================
+     INTRO
+===================================================== -->
+
+<section id="intro" class="scene active">
+
+    <div class="stars"></div>
+
+    <div class="introMoon"></div>
+
+    <h1 class="introTitle gold">
+        A Little Surprise ✨
+    </h1>
+
+    <p class="introText gold">
+        For my dear friend Lang 🌙
+    </p>
+
+    <button class="startBtn" onclick="startSurprise()">
+        ▶ Start the Surprise
+    </button>
+
+</section>
+
+
+<!-- =====================================================
+     CAKE
+===================================================== -->
+
+<section id="cakeScene" class="scene">
+
+    <div class="stars"></div>
 
     <div class="moon"></div>
 
-    <div class="lantern l1"></div>
-    <div class="lantern l2"></div>
-    <div class="lantern l3"></div>
-    <div class="lantern l4"></div>
+    <div class="lantern left"></div>
+    <div class="lantern right"></div>
 
     <div class="balloon b1"></div>
     <div class="balloon b2"></div>
     <div class="balloon b3"></div>
     <div class="balloon b4"></div>
 
-    <div class="firework fw1"></div>
-    <div class="firework fw2"></div>
-    <div class="firework fw3"></div>
+    <div id="count" class="count">1</div>
 
-</div>
 
-<div class="stage">
+    <div class="cakeBox">
 
-    <!-- CAKE -->
-    <div class="cake-area" id="cakeArea">
+        <div class="plate"></div>
 
-        <div class="cake">
+        <div class="layer layer1"></div>
+        <div class="layer layer2"></div>
+        <div class="layer layer3"></div>
 
-            <div class="layer bottom"></div>
-            <div class="layer middle"></div>
-            <div class="layer top"></div>
+        <div class="cream cream1"></div>
+        <div class="cream cream2"></div>
+        <div class="cream cream3"></div>
 
-            <div class="choco c1"></div>
-            <div class="choco c2"></div>
-            <div class="choco c3"></div>
-            <div class="choco c4"></div>
-            <div class="choco c5"></div>
+        <div class="chocolateTop">
 
-            <div class="candle candle1">
+            <div class="drip drip1"></div>
+            <div class="drip drip2"></div>
+            <div class="drip drip3"></div>
+
+        </div>
+
+        <div class="choco choco1"></div>
+        <div class="choco choco2"></div>
+        <div class="choco choco3"></div>
+
+
+        <div class="candles">
+
+            <div class="candle">
+                <div class="wick"></div>
                 <div class="flame"></div>
             </div>
 
-            <div class="candle candle2">
+            <div class="candle">
+                <div class="wick"></div>
                 <div class="flame"></div>
             </div>
 
-            <div class="candle candle3">
+            <div class="candle">
+                <div class="wick"></div>
                 <div class="flame"></div>
             </div>
 
         </div>
 
-        <div class="countdown" id="countdown">3</div>
-
     </div>
 
+</section>
 
-    <!-- LETTER -->
-    <div class="letter-scene" id="letterScene">
 
-        <div class="parchment">
+<!-- =====================================================
+     FIREWORK CANVAS
+===================================================== -->
 
-            <div class="scroll-top"></div>
-            <div class="scroll-bottom"></div>
+<canvas id="fireworks"></canvas>
 
-            <div class="letter">
 
-                <h1>For My Dear Friend 🌙</h1>
+<!-- =====================================================
+     CARD
+===================================================== -->
 
-                Hi, my dear friend Lang, 🌙<br><br>
+<section id="cardScene" class="scene">
 
-                We are from two different countries, with different
-                religions, cultures, and backgrounds. Yet, somehow,
-                by coincidence, we became friends. 🤍<br><br>
+    <div class="stars"></div>
 
-                I hope we always remain friends. But if someday,
-                for any reason, we stop talking, please remember
-                this little crazy friend of yours. 🐈✨
+    <div class="cardWrap">
 
-                <div class="signature">
-                    — Ria 🐈
+        <div id="card" class="card">
+
+            <!-- FRONT -->
+
+            <div class="cardFront">
+
+                <div class="bunny">
+                    🐇
+                </div>
+
+                <h2 class="cardTitle gold">
+                    A Message For You
+                </h2>
+
+                <p class="cardSub gold">
+                    From your Little Rabbit 🌙
+                </p>
+
+            </div>
+
+
+            <!-- INSIDE -->
+
+            <div class="cardInside">
+
+                <div class="letter">
+
+                    Hi, my dear friend Lang,<br><br>
+
+                    We are from two different countries,
+                    with different religions, cultures,
+                    and backgrounds. Yet, somehow,
+                    by coincidence, we became friends.<br><br>
+
+                    I hope we always remain friends.
+                    But if someday, for any reason,
+                    we stop talking, please remember
+                    this little crazy friend of yours.<br><br>
+
+                    — Your Little Rabbit 🐇
+
                 </div>
 
             </div>
@@ -562,85 +905,272 @@ body{
 
     </div>
 
-</div>
+</section>
 
-<button class="start" id="startBtn">
-    ✨ Open Your Surprise ✨
-</button>
+
+<!-- =====================================================
+     FINAL FIREWORK TEXT
+===================================================== -->
+
+<section id="finalScene" class="scene">
+
+    <canvas id="finalCanvas"></canvas>
+
+    <div class="finalLantern"></div>
+    <div class="finalLantern"></div>
+
+    <div class="finalOverlay">
+        🌙 May your days always be filled with happiness ✨
+    </div>
+
+</section>
+
 
 
 <script>
 
-const startBtn = document.getElementById("startBtn");
-const countdown = document.getElementById("countdown");
-const cakeArea = document.getElementById("cakeArea");
-const letterScene = document.getElementById("letterScene");
+/* =====================================================
+   SCENE
+===================================================== */
 
-const flames = document.querySelectorAll(".flame");
+function showScene(id){
 
-startBtn.addEventListener("click",()=>{
+    document
+        .querySelectorAll(".scene")
+        .forEach(scene =>
+            scene.classList.remove("active")
+        );
 
-    startBtn.style.display="none";
+    document
+        .getElementById(id)
+        .classList.add("active");
+}
 
-    let number = 3;
-    countdown.innerHTML = number;
 
-    const timer = setInterval(()=>{
+/* =====================================================
+   START
+===================================================== */
 
-        number--;
+let started=false;
 
-        if(number > 0){
-            countdown.innerHTML = number;
-        }
+function startSurprise(){
 
-        if(number === 0){
+    if(started) return;
 
-            countdown.innerHTML = "✨";
+    started=true;
 
-            flames.forEach(flame=>{
-                flame.style.transition="1s";
-                flame.style.opacity="0";
-                flame.style.transform="scale(0)";
-            });
+    showScene("cakeScene");
+
+    setTimeout(startCountdown,900);
+}
+
+
+/* =====================================================
+   COUNTDOWN
+===================================================== */
+
+function startCountdown(){
+
+    const count=
+        document.getElementById("count");
+
+    const flames=
+        document.querySelectorAll(".flame");
+
+    let n=1;
+
+    function next(){
+
+        count.textContent=n;
+
+        count.classList.remove("show");
+
+        void count.offsetWidth;
+
+        count.classList.add("show");
+
+
+        if(n===3){
 
             setTimeout(()=>{
 
-                cakeArea.classList.add("fade");
+                flames.forEach(flame=>{
+                    flame.classList.add("off");
+                });
 
-                setTimeout(()=>{
+                setTimeout(startFireworks,700);
 
-                    cakeArea.style.display="none";
+            },700);
 
-                    letterScene.classList.add("show");
+        }else{
 
-                },900);
+            n++;
 
-            },1200);
+            setTimeout(next,900);
 
-            clearInterval(timer);
         }
 
-    },1000);
+    }
 
-});
-
-
-/* stars */
-
-for(let i=0;i<55;i++){
-
-    const star=document.createElement("div");
-
-    star.className="star";
-
-    star.style.left=Math.random()*100+"%";
-    star.style.top=Math.random()*75+"%";
-    star.style.animationDelay=(Math.random()*3)+"s";
-
-    document.querySelector(".sky").appendChild(star);
+    next();
 }
 
-</script>
 
-</body>
-</html>
+/* =====================================================
+   REALISTIC PARTICLE FIREWORKS
+===================================================== */
+
+const fwCanvas=
+    document.getElementById("fireworks");
+
+const fw=
+    fwCanvas.getContext("2d");
+
+let rockets=[];
+let particles=[];
+let fwRunning=false;
+
+function resizeFW(){
+
+    fwCanvas.width=
+        window.innerWidth;
+
+    fwCanvas.height=
+        window.innerHeight;
+
+}
+
+resizeFW();
+
+window.addEventListener(
+    "resize",
+    resizeFW
+);
+
+
+function rand(min,max){
+
+    return Math.random()*(max-min)+min;
+
+}
+
+
+function makeRocket(){
+
+    rockets.push({
+
+        x:rand(
+            fwCanvas.width*.1,
+            fwCanvas.width*.9
+        ),
+
+        y:fwCanvas.height+10,
+
+        target:rand(
+            fwCanvas.height*.12,
+            fwCanvas.height*.45
+        ),
+
+        speed:rand(7,11)
+
+    });
+
+}
+
+
+function explode(x,y){
+
+    const amount=95;
+
+    for(let i=0;i<amount;i++){
+
+        const angle=
+            Math.random()*Math.PI*2;
+
+        const speed=
+            rand(1.5,7);
+
+        particles.push({
+
+            x:x,
+            y:y,
+
+            vx:Math.cos(angle)*speed,
+            vy:Math.sin(angle)*speed,
+
+            life:100,
+
+            size:rand(1,3),
+
+            hue:rand(35,55)
+
+        });
+
+    }
+
+}
+
+
+function fireworkAnimation(){
+
+    if(!fwRunning) return;
+
+    fw.fillStyle="rgba(2,1,7,.18)";
+
+    fw.fillRect(
+        0,0,
+        fwCanvas.width,
+        fwCanvas.height
+    );
+
+
+    /* rockets */
+
+    for(let i=rockets.length-1;i>=0;i--){
+
+        const r=rockets[i];
+
+        r.y-=r.speed;
+
+        fw.beginPath();
+
+        fw.arc(
+            r.x,
+            r.y,
+            2.5,
+            0,
+            Math.PI*2
+        );
+
+        fw.fillStyle="#fff0ad";
+        fw.fill();
+
+
+        if(r.y<=r.target){
+
+            explode(r.x,r.y);
+
+            rockets.splice(i,1);
+
+        }
+
+    }
+
+
+    /* particles */
+
+    for(let i=particles.length-1;i>=0;i--){
+
+        const p=particles[i];
+
+        p.x+=p.vx;
+        p.y+=p.vy;
+
+        p.vy+=.035;
+
+        p.vx*=.985;
+        p.vy*=.985;
+
+        p.life--;
+
+        const alpha
