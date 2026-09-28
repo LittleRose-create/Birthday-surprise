@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Lang 🎂🌙</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+  font-family: Georgia, serif;
+  background: #09051c;
+  color: white;
+  text-align: center;
+}
+
+/* ---------- OPENING ---------- */
+
+.scene {
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background:
+    radial-gradient(circle at 50% 25%, #3d1c68 0%, #160b32 40%, #070414 100%);
+}
+
+.stars {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(white 1px, transparent 1px),
+    radial-gradient(#ffdca8 1px, transparent 1px);
+  background-size: 55px 55px, 85px 85px;
+  animation: twinkle 3s infinite alternate;
+  opacity: .7;
+}
+
+@keyframes twinkle {
+  from { opacity: .35; }
+  to { opacity: .9; }
+}
+
+/* Moon */
+
+.moon {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: #fff4bd;
+  box-shadow:
+    0 0 25px #fff1a8,
+    0 0 70px #f8d879,
+    0 0 120px rgba(255,220,120,.4);
+  position: relative;
+  z-index: 2;
+  animation: moonGlow 3s infinite alternate;
+}
+
+@keyframes moonGlow {
+  from { transform: scale(1); }
+  to { transform: scale(1.04); }
+}
+
+/* Lanterns */
+
+.lantern {
+  position: absolute;
+  top: 80px;
+  font-size: 55px;
+  animation: swing 3s infinite ease-in-out;
+  z-index: 4;
+}
+
+.leftLantern {
+  left: 8%;
+}
+
+.rightLantern {
+  right: 8%;
+  animation-delay: 1s;
+}
+
+@keyframes swing {
+  0%,100% { transform: rotate(-5deg); }
+  50% { transform: rotate(5deg); }
+}
+
+/* Main text */
+
+.mainTitle {
+  position: relative;
+  z-index: 5;
+  margin-top: 35px;
+  font-size: clamp(38px, 9vw, 75px);
+  color: #ffe9a3;
+  text-shadow: 0 0 15px #ffbf42, 0 0 35px #ff8c00;
+  animation: titleIn 2s ease;
+}
+
+.subtitle {
+  position: relative;
+  z-index: 5;
+  font-size: 22px;
+  color: #ffd9a0;
+  margin-top: 8px;
+}
+
+@keyframes titleIn {
+  from {
+    opacity: 0;
+    transform: scale(.5);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ---------- BALLOONS ---------- */
+
+.balloon {
+  position: absolute;
+  bottom: -120px;
+  font-size: 55px;
+  animation: floatUp 9s linear infinite;
+  z-index: 6;
+}
+
+.b1 { left: 8%; animation-delay: 1s; }
+.b2 { left: 25%; animation-delay: 4s; }
+.b3 { right: 25%; animation-delay: 2s; }
+.b4 { right: 8%; animation-delay: 5s; }
+
+@keyframes floatUp {
+  from {
+    transform: translateY(0) rotate(-8deg);
+    opacity: 0;
+  }
+  10% { opacity: 1; }
+  to {
+    transform: translateY(-120vh) rotate(8deg);
+    opacity: 0;
+  }
+}
+
+/* ---------- FESTIVAL DECORATION ---------- */
+
+.festival {
+  position: absolute;
+  bottom: 18%;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  font-size: 60px;
+  z-index: 3;
+}
+
+.rabbit {
+  animation: rabbitBounce 2s infinite ease-in-out;
+}
+
+@keyframes rabbitBounce {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+.mooncake {
+  animation: cakeFloat 2.5s infinite ease-in-out;
+  cursor: pointer;
+}
+
+@keyframes cakeFloat {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-10px) rotate(4deg); }
+}
+
+/* ---------- BUTTON ---------- */
+
+.startBtn {
+  position: relative;
+  z-index: 10;
+  margin-top: 35px;
+  padding: 14px 30px;
+  border: none;
+  border-radius: 30px;
+  background: linear-gradient(45deg,#ffb52e,#ffe18a);
+  color: #3a1a00;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 0 20px #ffbe45;
+}
+
+/* ---------- LETTER ---------- */
+
+.letterSection {
+  min-height: 100vh;
+  padding: 70px 20px;
+  background:
+    radial-gradient(circle at center, #32134f, #0a0618 70%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.letter {
+  max-width: 650px;
+  padding: 35px 28px;
+  border-radius: 20px;
+  background: rgba(255,245,210,.96);
+  color: #3c2042;
+  box-shadow: 0 0 35px rgba(255,220,140,.45);
+  font-size: 18px;
+  line-height: 1.8;
+  transform: translateY(40px);
+  opacity: 0;
+  transition: 1.5s;
+}
+
+.letter.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.letter h2 {
+  color: #9c3c54;
+}
+
+/* ---------- FIREWORKS ---------- */
+
+.firework {
+  position: absolute;
+  font-size: 45px;
+  animation: boom 2s ease-out forwards;
+  pointer-events: none;
+  z-index: 20;
+}
+
+@keyframes boom {
+  0% {
+    transform: scale(.2);
+    opacity: 0;
+  }
+  40% {
+    transform: scale(1.5);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+/* ---------- SURPRISE ---------- */
+
+#surprise {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(5,2,15,.92);
+  z-index: 100;
+  justify-content: center;
+  align-items: center;
+  padding: 25px;
+}
+
+.surpriseBox {
+  max-width: 520px;
+  background: #fff4d6;
+  color: #43233c;
+  padding: 35px;
+  border-radius: 22px;
+  box-shadow: 0 0 50px #ffd66b;
+  animation: pop .7s ease;
+}
+
+@keyframes pop {
+  from {
+    transform: scale(.4);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.closeBtn {
+  margin-top: 20px;
+  padding: 10px 25px;
+  border: none;
+  border-radius: 20px;
+  background: #8c3651;
+  color: white;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= FIRST SCENE ================= -->
+
+<section class="scene">
+
+  <div class="stars"></div>
+
+  <div class="lantern leftLantern">🏮</div>
+  <div class="lantern rightLantern">🏮</div>
+
+  <div class="moon"></div>
+
+  <h1 class="mainTitle">Happy Birthday Lang 🎂</h1>
+
+  <div class="subtitle">
+    A little celebration under the Mid-Autumn moon 🌙
+  </div>
+
+  <!-- Traditional festival elements -->
+  <div class="festival">
+    <div>🏮</div>
+    <div class="rabbit">🐇</div>
+
+    <!-- Tap this -->
+    <div class="mooncake" onclick="showSurprise()">🥮</div>
+
+    <div>🏮</div>
+  </div>
+
+  <!-- Balloons -->
+  <div class="balloon b1">🎈</div>
+  <div class="balloon b2">🎈</div>
+  <div class="balloon b3">🎈</div>
+  <div class="balloon b4">🎈</div>
+
+  <button class="startBtn" onclick="startCelebration()">
+    🎁 Start the Celebration
+  </button>
+
+</section>
+
+
+<!-- ================= LETTER ================= -->
+
+<section class="letterSection">
+
+  <div class="letter" id="letter">
+
+    <h2>💌 A Little Letter</h2>
+
+    <p>
+      Hi, my dear friend Lang, 🌙
+    </p>
+
+    <p>
+      We are from two different countries, with different religions,
+      cultures, and backgrounds. Yet, somehow, by coincidence,
+      we became friends. 🤍
+    </p>
+
+    <p>
+      I hope we always remain friends. But if someday, for any reason,
+      we stop talking, please remember this little crazy friend of yours. 🐇✨
+    </p>
+
+    <p>
+      — Your Little Rabbit 🌙🥮
+    </p>
+
+  </div>
+
+</section>
+
+
+<!-- ================= SURPRISE ================= -->
+
+<div id="surprise">
+
+  <div class="surpriseBox">
+
+    <h2>🥮✨ Surprise!</h2>
+
+    <p>
+      A little sweetness for your special day, Lang! 🌙
+    </p>
+
+    <p>
+      May your birthday be as beautiful as this moonlit night. 🎂🌕
+    </p>
+
+    <button class="closeBtn" onclick="closeSurprise()">
+      💕 Close
+    </button>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/* ---------- FIREWORKS ---------- */
+
+function createFirework() {
+
+  const firework = document.createElement("div");
+
+  firework.className = "firework";
+
+  firework.innerHTML = "🎆";
+
+  firework.style.left =
+    Math.random() * 90 + 5 + "%";
+
+  firework.style.top =
+    Math.random() * 55 + 5 + "%";
+
+  document.body.appendChild(firework);
+
+  setTimeout(() => {
+    firework.remove();
+  }, 2000);
+}
+
+
+/* ---------- START CELEBRATION ---------- */
+
+function startCelebration() {
+
+  for (let i = 0; i < 12; i++) {
+
+    setTimeout(() => {
+      createFirework();
+    }, i * 350);
+
+  }
+
+  document.getElementById("letter")
+    .classList.add("show");
+
+}
+
+
+/* ---------- MOONCAKE SURPRISE ---------- */
+
+function showSurprise() {
+
+  document.getElementById("surprise").style.display = "flex";
+
+  for (let i = 0; i < 8; i++) {
+
+    setTimeout(() => {
+      createFirework();
+    }, i * 250);
+
+  }
+
+}
+
+
+/* ---------- CLOSE SURPRISE ---------- */
+
+function closeSurprise() {
+
+  document.getElementById("surprise").style.display = "none";
+
+}
+
+</script>
+
+</body>
+  </html>
