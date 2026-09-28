@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Lang 🎂🌙</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+html,body{
+  margin:0;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  font-family:Georgia,serif;
+}
+
+body{
+  background:#090512;
+  color:white;
+}
+
+/* ================= GENERAL ================= */
+
+.scene{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  text-align:center;
+  opacity:0;
+  visibility:hidden;
+  transition:opacity 1.2s ease;
+}
+
+.scene.active{
+  opacity:1;
+  visibility:visible;
+}
+
+/* ================= FIREWORK CANVAS ================= */
+
+#fireworks{
+  position:fixed;
+  inset:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  z-index:100;
+}
+
+/* ================= STARS ================= */
+
+.stars{
+  position:absolute;
+  inset:0;
+  background-image:
+    radial-gradient(#fff 1px,transparent 1px),
+    radial-gradient(#ffe9b0 1px,transparent 1px);
+  background-size:70px 70px,110px 110px;
+  opacity:.5;
+  animation:twinkle 3s infinite alternate;
+}
+
+@keyframes twinkle{
+  from{opacity:.25}
+  to{opacity:.75}
+}
+
+/* ================= MOON ================= */
+
+.moon{
+  position:absolute;
+  width:125px;
+  height:125px;
+  border-radius:50%;
+  background:#fff1b5;
+  box-shadow:
+    0 0 25px #ffe89a,
+    0 0 70px #ffd66c,
+    0 0 120px rgba(255,214,108,.3);
+  top:9%;
+  right:10%;
+}
+
+/* ================= LANTERNS ================= */
+
+.lantern{
+  position:absolute;
+  top:8%;
+  font-size:55px;
+  animation:swing 3s ease-in-out infinite;
+}
+
+.lantern.left{
+  left:7%;
+}
+
+.lantern.right{
+  right:7%;
+  animation-delay:1s;
+}
+
+@keyframes swing{
+  0%,100%{transform:rotate(-5deg)}
+  50%{transform:rotate(5deg)}
+}
+
+/* ================= INTRO ================= */
+
+#intro{
+  background:
+    radial-gradient(circle at 50% 35%,#4c225d,#1b0c2e 50%,#07040e);
+}
+
+.introContent{
+  position:relative;
+  z-index:5;
+}
+
+.introContent h1{
+  margin:0;
+  font-size:clamp(42px,10vw,78px);
+  color:#ffe5a0;
+  text-shadow:
+    0 0 15px #ffbd4a,
+    0 0 40px #ff7c00;
+}
+
+.introContent p{
+  font-size:20px;
+  color:#f6d9b1;
+}
+
+.startButton{
+  margin-top:25px;
+  padding:15px 32px;
+  border:none;
+  border-radius:30px;
+  font-size:18px;
+  font-weight:bold;
+  color:#3a1600;
+  background:linear-gradient(45deg,#ffad32,#ffe29a);
+  box-shadow:0 0 25px #ffb83d;
+}
+
+/* ================= CAKE ================= */
+
+#cakeScene{
+  background:
+    radial-gradient(circle at center,#42194f,#17091f 60%,#07040d);
+}
+
+.cakeTitle{
+  position:absolute;
+  top:9%;
+  font-size:24px;
+  color:#ffe4a5;
+}
+
+.cake{
+  position:relative;
+  width:280px;
+  height:210px;
+  margin-top:40px;
+}
+
+.cakeBase{
+  position:absolute;
+  bottom:15px;
+  left:5px;
+  width:270px;
+  height:85px;
+  border-radius:20px 20px 15px 15px;
+  background:linear-gradient(#69351f,#32140f);
+  box-shadow:0 12px 0 #200b0a;
+}
+
+.cakeTop{
+  position:absolute;
+  top:70px;
+  left:5px;
+  width:270px;
+  height:70px;
+  border-radius:50%;
+  background:#542518;
+}
+
+.cream{
+  position:absolute;
+  top:68px;
+  left:22px;
+  width:236px;
+  height:35px;
+  border-radius:50%;
+  background:#f4d8c2;
+}
+
+.chocolate{
+  position:absolute;
+  top:92px;
+  left:45px;
+  width:190px;
+  height:35px;
+  border-radius:50%;
+  background:#3a170f;
+}
+
+.candle{
+  position:absolute;
+  top:17px;
+  width:16px;
+  height:62px;
+  border-radius:4px;
+  background:repeating-linear-gradient(
+    45deg,
+    #fff 0 7px,
+    #e74b63 7px 14px
+  );
+  transition:opacity .5s;
+}
+
+.candle1{left:70px}
+.candle2{left:132px}
+.candle3{left:194px}
+
+.flame{
+  position:absolute;
+  width:14px;
+  height:23px;
+  top:-25px;
+  left:1px;
+  border-radius:50% 50% 45% 45%;
+  background:#ffd43b;
+  box-shadow:0 0 18px #ff9800;
+  animation:flicker .2s infinite alternate;
+}
+
+@keyframes flicker{
+  from{transform:scale(.9) rotate(-3deg)}
+  to{transform:scale(1.1) rotate(3deg)}
+}
+
+.candle.off .flame{
+  display:none;
+}
+
+.candle.off{
+  opacity:.35;
+}
+
+.countdown{
+  margin-top:25px;
+  min-height:45px;
+  font-size:32px;
+  color:#ffe3a0;
+  text-shadow:0 0 15px #ffad32;
+}
+
+/* ================= PAPER ================= */
+
+#letterScene{
+  background:
+    radial-gradient(circle at center,#452051,#100618 75%);
+}
+
+.paper{
+  width:min(88%,620px);
+  max-height:78vh;
+  overflow:auto;
+  padding:35px 30px;
+  background:#f3dfae;
+  color:#40263b;
+  border-radius:8px;
+  box-shadow:0 15px 50px rgba(0,0,0,.6);
+  transform:scaleY(0);
+  transform-origin:top;
+}
+
+.paper.open{
+  animation:paperOpen 2s ease forwards;
+}
+
+@keyframes paperOpen{
+  0%{
+    transform:scaleY(.03);
+    opacity:0;
+  }
+  60%{
+    opacity:1;
+  }
+  100%{
+    transform:scaleY(1);
+    opacity:1;
+  }
+}
+
+.paper h2{
+  color:#8b3d52;
+  margin-top:0;
+}
+
+.letterText{
+  font-size:17px;
+  line-height:1.8;
+}
+
+.signature{
+  margin-top:20px;
+  font-style:italic;
+  color:#8b3d52;
+}
+
+/* ================= ROSE GARDEN ================= */
+
+#garden{
+  background:
+    linear-gradient(
+      to bottom,
+      #070512 0%,
+      #16102b 55%,
+      #0d2114 56%,
+      #050d08 100%
+    );
+}
+
+.gardenMoon{
+  position:absolute;
+  top:9%;
+  width:115px;
+  height:115px;
+  border-radius:50%;
+  background:#fff1b5;
+  box-shadow:0 0 60px #ffd86b;
+}
+
+.gardenTitle{
+  position:absolute;
+  top:6%;
+  z-index:5;
+  font-size:24px;
+  color:#ffe3a0;
+}
+
+.grass{
+  position:absolute;
+  bottom:0;
+  width:100%;
+  height:45%;
+  background:
+    radial-gradient(ellipse at center,#183a20,#061009 75%);
+}
+
+.rose{
+  position:absolute;
+  bottom:25%;
+  font-size:42px;
+  animation:sway 3s ease-in-out infinite;
+}
+
+.rose1{left:8%}
+.rose2{left:24%;animation-delay:.7s}
+.rose3{right:24%;animation-delay:1.2s}
+.rose4{right:8%;animation-delay:.4s}
+
+@keyframes sway{
+  0%,100%{transform:rotate(-4deg)}
+  50%{transform:rotate(4deg)}
+}
+
+.rabbit{
+  position:absolute;
+  bottom:17%;
+  font-size:100px;
+  animation:hop 2.5s infinite ease-in-out;
+  z-index:5;
+}
+
+@keyframes hop{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-15px)}
+}
+
+.finalMessage{
+  position:absolute;
+  bottom:7%;
+  z-index:6;
+  font-size:22px;
+  color:#ffe4a3;
+  line-height:1.6;
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:600px){
+
+  .moon{
+    width:85px;
+    height:85px;
+    right:7%;
+  }
+
+  .lantern{
+    font-size:38px;
+  }
+
+  .cake{
+    transform:scale(.82);
+  }
+
+  .paper{
+    padding:28px 20px;
+  }
+
+  .letterText{
+    font-size:15px;
+  }
+
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="fireworks"></canvas>
+
+
+<!-- ================= INTRO ================= -->
+
+<section id="intro" class="scene active">
+
+  <div class="stars"></div>
+
+  <div class="moon"></div>
+
+  <div class="lantern left">🏮</div>
+  <div class="lantern right">🏮</div>
+
+  <div class="introContent">
+
+    <h1>Happy Birthday Lang 🎂</h1>
+
+    <p>
+      A little surprise under the Mid-Autumn moon 🌙
+    </p>
+
+    <button class="startButton" onclick="begin()">
+      ✨ Start the Surprise
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- ================= CAKE ================= -->
+
+<section id="cakeScene" class="scene">
+
+  <div class="cakeTitle">
+    A little chocolate cake for you 🍫🎂
+  </div>
+
+  <div class="cake">
+
+    <div class="cakeBase"></div>
+    <div class="cakeTop"></div>
+    <div class="cream"></div>
+    <div class="chocolate"></div>
+
+    <div class="candle candle1">
+      <div class="flame"></div>
+    </div>
+
+    <div class="candle candle2">
+      <div class="flame"></div>
+    </div>
+
+    <div class="candle candle3">
+      <div class="flame"></div>
+    </div>
+
+  </div>
+
+  <div class="countdown" id="countdown">
+    Get ready... ✨
+  </div>
+
+</section>
+
+
+<!-- ================= LETTER ================= -->
+
+<section id="letterScene" class="scene">
+
+  <div class="paper" id="paper">
+
+    <h2>💌 A Little Letter</h2>
+
+    <div class="letterText">
+
+      <p>
+        Hi, my dear friend Lang, 🌙
+      </p>
+
+      <p>
+        We are from two different countries, with different religions,
+        cultures, and backgrounds. Yet, somehow, by coincidence,
+        we became friends. 🤍
+      </p>
+
+      <p>
+        I hope we always remain friends. But if someday, for any reason,
+        we stop talking, please remember this little crazy friend of yours. 🐇✨
+      </p>
+
+      <p class="signature">
+        — Your Little Rabbit 🌙🥮
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= ROSE GARDEN ================= -->
+
+<section id="garden" class="scene">
+
+  <div class="gardenMoon"></div>
+
+  <div class="gardenTitle">
+    A little garden for Lang 🌹
+  </div>
+
+  <div class="grass"></div>
+
+  <div class="rose rose1">🌹</div>
+  <div class="rose rose2">🌹</div>
+  <div class="rose rose3">🌹</div>
+  <div class="rose rose4">🌹</div>
+
+  <div class="rabbit">
+    🐇
+  </div>
+
+  <div class="finalMessage">
+    Happy Birthday, Lang 🎂✨<br>
+    — Your Little Rabbit 🐇
+  </div>
+
+</section>
+
+
+<script>
+
+/* =====================================================
+   REAL FIREWORKS
+===================================================== */
+
+const canvas = document.getElementById("fireworks");
+const ctx = canvas.getContext("2d");
+
+let rockets = [];
+let particles = [];
+
+function resize(){
+
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+}
+
+resize();
+
+window.addEventListener("resize",resize);
+
+
+/* Rocket */
+
+function rocket(){
+
+  rockets.push({
+
+    x:Math.random()*canvas.width,
+
+    y:canvas.height+20,
+
+    targetY:
+      100+
+      Math.random()*
+      canvas.height*.4,
+
+    speed:7+Math.random()*2,
+
+    hue:Math.random()*360
+
+  });
+
+}
+
+
+/* Explosion */
+
+function explode(x,y,hue){
+
+  for(let i=0;i<100;i++){
+
+    const angle=
+      Math.random()*Math.PI*2;
+
+    const speed=
+      Math.random()*6+1.5;
+
+    particles.push({
+
+      x:x,
+      y:y,
+
+      vx:Math.cos(angle)*speed,
+      vy:Math.sin(angle)*speed,
+
+      life:1,
+
+      decay:
+        .012+
+        Math.random()*.018,
+
+      hue:hue
+
+    });
+
+  }
+
+}
+
+
+/* Firework animation */
+
+function fireworkAnimation(){
+
+  ctx.fillStyle="rgba(5,3,15,.18)";
+  ctx.fillRect(
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
+
+
+  /* rockets */
+
+  for(let i=rockets.length-1;i>=0;i--){
+
+    const r=rockets[i];
+
+    r.y-=r.speed;
+
+    ctx.beginPath();
+
+    ctx.arc(
+      r.x,
+      r.y,
+      2,
+      0,
+      Math.PI*2
+    );
+
+    ctx.fillStyle=
+      `hsl(${r.hue},100%,70%)`;
+
+    ctx.fill();
+
+    if(r.y<=r.targetY){
+
+      explode(
+        r.x,
+        r.y,
+        r.hue
+      );
+
+      rockets.splice(i,1);
+
+    }
+
+  }
+
+
+  /* particles */
+
+  for(let i=particles.length-1;i>=0;i--){
+
+    const p=particles[i];
+
+    p.x+=p.vx;
+    p.y+=p.vy;
+
+    p.vy+=.035;
+
+    p.vx*=.985;
+
+    p.life-=p.decay;
+
+    ctx.beginPath();
+
+    ctx.arc(
+      p.x,
+      p.y,
+      2,
+      0,
+      Math.PI*2
+    );
+
+    ctx.fillStyle=
+      `hsla(
+        ${p.hue},
+        100%,
+        65%,
+        ${p.life}
+      )`;
+
+    ctx.fill();
+
+    if(p.life<=0){
+
+      particles.splice(i,1);
+
+    }
+
+  }
+
+  requestAnimationFrame(
+    fireworkAnimation
+  );
+
+}
+
+fireworkAnimation();
+
+
+/* Firework show */
+
+function fireworks(){
+
+  rocket();
+
+  setTimeout(rocket,300);
+  setTimeout(rocket,650);
+  setTimeout(rocket,1000);
+  setTimeout(rocket,1400);
+  setTimeout(rocket,1800);
+  setTimeout(rocket,2200);
+
+}
+
+
+/* =====================================================
+   SCENE CHANGE
+===================================================== */
+
+function scene(id){
+
+  document
+    .querySelectorAll(".scene")
+    .forEach(s=>{
+      s.classList.remove("active");
+    });
+
+  document
+    .getElementById(id)
+    .classList.add("active");
+
+}
+
+
+/* =====================================================
+   START
+===================================================== */
+
+function begin(){
+
+  scene("cakeScene");
+
+  setTimeout(()=>{
+    document.getElementById("countdown")
+      .innerText="1...";
+  },1000);
+
+  setTimeout(()=>{
+    document
+      .querySelector(".candle1")
+      .classList.add("off");
+
+    document.getElementById("countdown")
+      .innerText="One candle out ✨";
+
+  },1800);
+
+
+  setTimeout(()=>{
+    document.getElementById("countdown")
+      .innerText="2...";
+  },2800);
+
+
+  setTimeout(()=>{
+    document
+      .querySelector(".candle2")
+      .classList.add("off");
+
+    document.getElementById("countdown")
+      .innerText="Two candles out ✨";
+
+  },3600);
+
+
+  setTimeout(()=>{
+    document.getElementById("countdown")
+      .innerText="3...";
+  },4600);
+
+
+  setTimeout(()=>{
+    document
+      .querySelector(".candle3")
+      .classList.add("off");
+
+    document.getElementById("countdown")
+      .innerText="Happy Birthday, Lang! 🎂";
+
+    fireworks();
+
+  },5400);
+
+
+  /* Open letter automatically */
+
+  setTimeout(()=>{
+
+    scene("letterScene");
+
+    setTimeout(()=>{
+
+      document
+        .getElementById("paper")
+        .classList.add("open");
+
+    },300);
+
+  },8500);
+
+
+  /* Garden automatically */
+
+  setTimeout(()=>{
+
+    scene("garden");
+
+    fireworks();
+
+  },17000);
+
+}
+
+</script>
+
+</body>
+    </html>
